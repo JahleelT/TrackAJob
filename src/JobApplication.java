@@ -1,3 +1,5 @@
+import java.time.LocalDate;
+
 public class JobApplication {
   private String company;
   private String role;
@@ -6,9 +8,9 @@ public class JobApplication {
   private String payment;
   private String stage;
   private String trackingLink;
-  private String appliedDate;
+  private LocalDate appliedDate;
 
-  public JobApplication(String company, String role, String location, String workFormat, String payment, String stage, String trackingLink, String appliedDate) {
+  public JobApplication(String company, String role, String location, String workFormat, String payment, String stage, String trackingLink) {
     this.company = company;
     this.role = role;
     this.location = location;
@@ -16,7 +18,7 @@ public class JobApplication {
     this.payment = payment;
     this.stage = stage;
     this.trackingLink = trackingLink;
-    this.appliedDate = appliedDate;
+    this.appliedDate = LocalDate.now();
   }
 
   public void setCompany(String newCompany) {
@@ -53,13 +55,14 @@ public class JobApplication {
 
   public String toString() {
     return 
-      "Company: " + company + "\n" +
-      "Role: " + role + "\n" +
-      "Location: " + location + "\n" +
-      "Payment: " + payment + "\n" +
-      "Stage: " + stage + "\n" +
-      "Tracking Link: " + trackingLink + "\n" +
-      "Date of Application: " + appliedDate + "\n";
+      "Company: " + company + " | " +
+      "Role: " + role + " | " +
+      "Location: " + location + " | " +
+      "Work Format: " + workFormat + " | " +
+      "Payment: " + payment + " | " +
+      "Stage: " + stage + " | " +
+      "Tracking Link: " + trackingLink + " | " +
+      "Date of Application: " + appliedDate + " | ";
   }
 
 

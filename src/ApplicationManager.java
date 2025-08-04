@@ -4,18 +4,17 @@ import java.util.List;
 
 public class ApplicationManager {
 
-  private ArrayList<JobApplication> jobs;
+  private ArrayList<JobApplication> jobs = new ArrayList<>();
   private static final List<String> stages = Arrays.asList(
-    "Applied", "Interviewing", "Offered", "Accepted", "Rejected"
+    "Sent", "Interviewing", "Offered", "Accepted", "Rejected"
   );
 
   public ApplicationManager() {
     this.jobs = new ArrayList<>();
   }
 
-  public String addApplication(JobApplication application) {
+  public void addApplication(JobApplication application) {
     this.jobs.add(application);
-    return "Job successfully added :)";
   }
 
   public void viewApplications() {
@@ -30,8 +29,8 @@ public class ApplicationManager {
   }
 
   public String deleteJob(Integer index) {
-    Integer target = index - 1;
-
+    int target = index - 1;
+    
     if (jobs.size() == 0) {
       return "No jobs have been added yet. Please add 1 or more jobs before trying again!";
     } else if (target >= jobs.size() || target < 0) {
@@ -64,7 +63,7 @@ public class ApplicationManager {
 
   }
 
-  public String deleteAllJobs(ArrayList<JobApplication> jobs) {
+  public String deleteAllJobs() {
     jobs.clear();
     return "Successfully deleted ALL jobs :)";
   }
@@ -78,8 +77,7 @@ public class ApplicationManager {
   }
 
   public void exit() {
-    System.out.println("Exiting...");
-    System.exit(0);
+    System.out.println("Program shutting down, it's been fun! Have a good one :)");
   }
 
 
