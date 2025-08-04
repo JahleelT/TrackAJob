@@ -77,6 +77,14 @@ TrackAJob/
 └── README.md              # This file
 ```
 
+## Future Development 
+The project is actively under development. Planned updates include the following:
+- Job list exportation (in XML format)
+- Enhanced validation and error catching
+- Enhanced CRUD operations
+- User sign-in/signup
+- etc...
+
 ## Contributing
 
 This is a simple educational project. Feel free to fork and enhance it with additional features like:
