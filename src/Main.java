@@ -1,6 +1,13 @@
 import java.util.Scanner;
+import java.math.BigDecimal;
 import java.util.List;
+import java.net.URL;
+import java.net.MalformedURLException;
+import java.nio.charset.MalformedInputException;
 
+import models.*;
+
+@SuppressWarnings("unused")
 public class Main {
     public static void main(String[] args) throws Exception {
         ApplicationManager manager = new ApplicationManager();
@@ -23,7 +30,8 @@ public class Main {
                 "4. Delete a Job" + "\n" + 
                 "5. Delete ALL Jobs" + "\n" +
                 "6. Show Job Count" + "\n" +
-                "7. Exit" + "\n"
+                "7. Export Jobs" + "\n" +
+                "8. Exit" + "\n"
             );
 
             String input = scnr.nextLine();
@@ -43,10 +51,10 @@ public class Main {
                     String company;
                     String role;
                     String location;
-                    String workFormat;
-                    String payment;
-                    String stage;
-                    String trackingLink;
+                    WorkFormat workFormat;
+                    String paymentAmount;
+                    PaymentType paymentType;
+                    URL trackingLink;
 
                     System.out.println("What is the company name:");
                     company = scnr.nextLine();
@@ -58,17 +66,33 @@ public class Main {
                     location = scnr.nextLine();
 
                     System.out.println("Is the role in-person, hybrid, or remote?");
-                    workFormat = scnr.nextLine();
+                    String workFormatInput = scnr.nextLine();
+
+                    workFormat = WorkFormat.fromString(workFormatInput);
+                    if (workFormat == null) {
+                        System.out.println("Invalid work format. Please enter: In person, Hybrid, or Remote");
+                        break;
+                    }
 
                     System.out.println("What is the pay?");
-                    payment = scnr.nextLine();
+                    paymentAmount = scnr.nextLine();
 
-                    stage = "Sent";
+                    System.out.println("What is the payment type?");
+                    String paymentTypeString = scnr.nextLine();
+
+                    paymentType = PaymentType.fromString(paymentTypeString);
 
                     System.out.println("Enter link to where the application is housed"  );
-                    trackingLink = scnr.nextLine();
+                    String trackingLinkString = scnr.nextLine();
 
-                    JobApplication job = new JobApplication(company, role, location, workFormat, payment, stage, trackingLink);
+                    try {
+                        trackingLink = new URL(trackingLinkString);
+                    } catch (MalformedURLException e) {
+                        System.err.println("Invalid URL format. Please try again with a valid URL.");
+                        continue;
+                    }
+
+                    JobApplication job = new JobApplication(company, role, location, workFormat, paymentAmount, paymentType, trackingLink);
 
                     manager.addApplication(job);
 
@@ -186,8 +210,13 @@ public class Main {
                     System.out.println("You have currently logged " + jobCount + " jobs.");
                     System.out.println("\n");
                     break;
-
+                
                 case 7:
+                    manager.exportJobs();
+                    System.out.println("Jobs successfully exported!");
+                    break;
+
+                case 8:
                     manager.exit();
                     isRunning = false;
                     break;

@@ -1,13 +1,14 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.logging.*;
+
+import models.JobApplication;
 
 public class ApplicationManager {
 
   private ArrayList<JobApplication> jobs = new ArrayList<>();
-  private static final List<String> stages = Arrays.asList(
-    "Sent", "Interviewing", "Offered", "Accepted", "Rejected"
-  );
 
   public ApplicationManager() {
     this.jobs = new ArrayList<>();
@@ -69,7 +70,35 @@ public class ApplicationManager {
   }
 
   public void exportJobs() {
+      // Create file
+      try (FileWriter file = new FileWriter("applications.xml")) {
+        // open the applicationS outer container
+        file.write("<applications>\n");
 
+
+        for (JobApplication job : jobs) {
+
+          // open the application inner container
+          file.write("  <application>\n");
+
+          file.write(String.format("    <company>%s</company>\n", job.getCompany()));
+          file.write(String.format("    <role>%s</role>\n", job.getRole()));
+          file.write(String.format("    <location>%s</location>\n", job.getLocation()));
+          file.write(String.format("    <workFormat>%s</workFormat>\n", job.getWorkFormatString()));
+          file.write(String.format("    <payment>%s/%s</payment>", job.getPayment(), job.getPayTypeString()));
+          file.write(String.format("    <stage>%s</stage>\n", job.getStageString()));
+          file.write(String.format("    <trackingLink>%s</trackingLink>\n", job.getTrackingLink()));
+          file.write(String.format("    <applicationDate>%s</applicationDate>\n", job.getAppliedDateString()));
+
+
+          file.write("  </application>\n");
+        }
+
+        file.write("</applications>\n");
+
+      } catch (IOException e) {
+        e.printStackTrace();
+      };
   }
 
   public Integer getJobCount() {
