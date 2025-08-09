@@ -7,9 +7,9 @@ This document outlines the phases to enhance a Java CLI-based job tracker projec
 ## ✅ Phase 1: Core Features – Data Persistence
 
 ### 1. Export to XML
-- Write job application data to an XML file using file I/O.
-- Include proper escaping for special characters.
-- Implement the `fromString()` method via an interface to implement some inheritance
+- [X] Write job application data to an XML file using file I/O.
+- [ ] Include proper escaping for special characters.
+- [ ] Implement the `fromString()` method via an interface to implement some inheritance
 
 ### 2. Import from XML (Planned)
 - Load previously saved job data at startup.

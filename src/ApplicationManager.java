@@ -1,14 +1,30 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.io.FileWriter;
+import java.io.File;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import org.w3c.dom.Node;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 import java.io.IOException;
 import java.util.logging.*;
-
+import java.math.BigDecimal;
+import java.net.URL;
+import java.time.LocalDate;
 import models.JobApplication;
+import models.PaymentType;
+import models.WorkFormat;
+import models.Stage;
 
 public class ApplicationManager {
 
   private ArrayList<JobApplication> jobs = new ArrayList<>();
+
+  private boolean imported;
 
   public ApplicationManager() {
     this.jobs = new ArrayList<>();
@@ -66,40 +82,102 @@ public class ApplicationManager {
 
   public String deleteAllJobs() {
     jobs.clear();
+    imported = false;
     return "Successfully deleted ALL jobs :)";
   }
 
   public void exportJobs() {
       // Create file
-      try (FileWriter file = new FileWriter("applications.xml")) {
+      try (FileWriter exportFile = new FileWriter("applications.xml")) {
         // open the applicationS outer container
-        file.write("<applications>\n");
+        exportFile.write("<applications>\n");
 
 
         for (JobApplication job : jobs) {
 
           // open the application inner container
-          file.write("  <application>\n");
+          exportFile.write("  <application>\n");
 
-          file.write(String.format("    <company>%s</company>\n", job.getCompany()));
-          file.write(String.format("    <role>%s</role>\n", job.getRole()));
-          file.write(String.format("    <location>%s</location>\n", job.getLocation()));
-          file.write(String.format("    <workFormat>%s</workFormat>\n", job.getWorkFormatString()));
-          file.write(String.format("    <payment>%s/%s</payment>", job.getPayment(), job.getPayTypeString()));
-          file.write(String.format("    <stage>%s</stage>\n", job.getStageString()));
-          file.write(String.format("    <trackingLink>%s</trackingLink>\n", job.getTrackingLink()));
-          file.write(String.format("    <applicationDate>%s</applicationDate>\n", job.getAppliedDateString()));
+          exportFile.write(String.format("    <company>%s</company>\n", job.getCompany()));
+          exportFile.write(String.format("    <role>%s</role>\n", job.getRole()));
+          exportFile.write(String.format("    <location>%s</location>\n", job.getLocation()));
+          exportFile.write(String.format("    <workFormat>%s</workFormat>\n", job.getWorkFormatString()));
+          exportFile.write(String.format("    <payment>%s/%s</payment>", job.getPayment(), job.getPayTypeString()));
+          exportFile.write(String.format("    <stage>%s</stage>\n", job.getStageString()));
+          exportFile.write(String.format("    <trackingLink>%s</trackingLink>\n", job.getTrackingLink()));
+          exportFile.write(String.format("    <applicationDate>%s</applicationDate>\n", job.getAppliedDateString()));
 
 
-          file.write("  </application>\n");
+          exportFile.write("  </application>\n");
         }
 
-        file.write("</applications>\n");
+        exportFile.write("</applications>\n");
+
+        imported = true;
 
       } catch (IOException e) {
         e.printStackTrace();
       };
   }
+
+  public void importJobs() {
+    try  {
+      // Open and prepare the file
+      File importFile = new File("applications.xml");
+      DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+      DocumentBuilder db = dbf.newDocumentBuilder();
+      Document doc = db.parse(importFile);
+      doc.normalize();
+      
+      // Prepare all args for constructor
+      NodeList nodes = doc.getElementsByTagName("application"); 
+      
+      for (int i = 0; i < nodes.getLength(); i++) {
+        Node node = nodes.item(i);
+        Element appElement = (Element) node;
+
+        String company = ((Element) appElement).getElementsByTagName("company").item(0).getTextContent();
+
+        String role = ((Element) appElement).getElementsByTagName("role").item(0).getTextContent();
+
+        String location = ((Element) appElement).getElementsByTagName("location").item(0).getTextContent();
+
+        String wfString = ((Element) appElement).getElementsByTagName("workFormat").item(0).getTextContent();
+        WorkFormat workFormat = WorkFormat.fromString(wfString);
+
+        String pString = ((Element) appElement).getElementsByTagName("payment").item(0).getTextContent();
+        String[] payParts = pString.split("/");
+        PaymentType paymentType = PaymentType.fromString(payParts[1]);
+
+        BigDecimal paymentAmount = new BigDecimal(payParts[0]); 
+
+        String stageString = ((Element) appElement).getElementsByTagName("stage").item(0).getTextContent();
+        Stage stage = Stage.fromString(stageString);
+
+        String trackingLinkString = ((Element) appElement).getElementsByTagName("trackingLink").item(0).getTextContent();
+        URL trackingLink = new URL(trackingLinkString);
+
+        String localDateString = ((Element) appElement).getElementsByTagName("applicationDate").item(0).getTextContent();
+        LocalDate appliedDate = LocalDate.parse(localDateString);
+
+        // Construct the job
+        JobApplication job = new JobApplication(company, role, location, workFormat, paymentAmount, paymentType, stage, trackingLink, appliedDate);
+
+        // Add the job
+        addApplication(job);
+      }
+
+      
+
+      imported = true;
+      System.out.println("Successfully loaded jobs!");
+      
+    } catch (NullPointerException | ParserConfigurationException | IOException | SAXException e) {
+      System.err.println("Error encountered, " + e);
+    }
+
+  }
+
 
   public Integer getJobCount() {
     return jobs.size();

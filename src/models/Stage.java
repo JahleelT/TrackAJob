@@ -20,4 +20,14 @@ public enum Stage {
   public String getStage() {
     return this.stage;
   }
+
+  public static Stage fromString(String input) {
+    for (Stage stage : Stage.values()) {
+      if (stage.getStage().equalsIgnoreCase(input)) {
+        return stage;
+      }
+    }
+
+    return null;
+  }
 }

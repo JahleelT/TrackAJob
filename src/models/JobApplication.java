@@ -16,6 +16,7 @@ public class JobApplication {
   private URL trackingLink;
   private LocalDate appliedDate;
 
+  // Add Job method constructor
   public JobApplication(String company, String role, String location, WorkFormat workFormat, String paymentAmountStr, PaymentType paymentType, URL trackingLink) {
     this.company = company;
     this.role = role;
@@ -26,6 +27,19 @@ public class JobApplication {
     this.stage = Stage.FIRST_ROUND;
     this.trackingLink = trackingLink;
     this.appliedDate = LocalDate.now();
+  }
+
+  // Imported job constructor (all values already filled)
+  public JobApplication(String company, String role, String location, WorkFormat workFormat, BigDecimal paymentAmount, PaymentType paymentType, Stage stage, URL trackingLink, LocalDate appliedDate) {
+    this.company = company;
+    this.role = role;
+    this.location = location;
+    this.workFormat = workFormat;
+    this.paymentAmount = paymentAmount;
+    this.paymentType = paymentType;
+    this.stage = stage;
+    this.trackingLink = trackingLink;
+    this.appliedDate = appliedDate;
   }
 
   public void setCompany(String newCompany) {
