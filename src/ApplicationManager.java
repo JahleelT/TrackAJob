@@ -138,28 +138,57 @@ public class ApplicationManager {
           Node node = nodes.item(i);
           Element appElement = (Element) node;
 
-          String company = ((Element) appElement).getElementsByTagName("company").item(0).getTextContent();
+          String company = ((Element) appElement)
+            .getElementsByTagName("company")
+            .item(0)
+            .getTextContent()
+            .trim();
 
-          String role = ((Element) appElement).getElementsByTagName("role").item(0).getTextContent();
+          String role = ((Element) appElement)
+            .getElementsByTagName("role")
+            .item(0)
+            .getTextContent()
+            .trim();
 
-          String location = ((Element) appElement).getElementsByTagName("location").item(0).getTextContent();
+          String location = ((Element) appElement)
+            .getElementsByTagName("location")
+            .item(0)
+            .getTextContent()
+            .trim();
 
-          String wfString = ((Element) appElement).getElementsByTagName("workFormat").item(0).getTextContent();
+          String wfString = ((Element) appElement)
+            .getElementsByTagName("workFormat")
+            .item(0)
+            .getTextContent();
           WorkFormat workFormat = WorkFormat.fromString(wfString);
 
-          String pString = ((Element) appElement).getElementsByTagName("payment").item(0).getTextContent();
+          String pString = ((Element) appElement)
+            .getElementsByTagName("payment")
+            .item(0)
+            .getTextContent();
           String[] payParts = pString.split("/");
-          PaymentType paymentType = PaymentType.fromString(payParts[1]);
 
           BigDecimal paymentAmount = new BigDecimal(payParts[0]); 
 
-          String stageString = ((Element) appElement).getElementsByTagName("stage").item(0).getTextContent();
+          PaymentType paymentType = PaymentType.fromString(payParts[1]);
+
+
+          String stageString = ((Element) appElement)
+            .getElementsByTagName("stage")
+            .item(0)
+            .getTextContent();
           Stage stage = Stage.fromString(stageString);
 
-          String trackingLinkString = ((Element) appElement).getElementsByTagName("trackingLink").item(0).getTextContent();
+          String trackingLinkString = ((Element) appElement)
+            .getElementsByTagName("trackingLink")
+            .item(0)
+            .getTextContent();
           URL trackingLink = new URL(trackingLinkString);
 
-          String localDateString = ((Element) appElement).getElementsByTagName("applicationDate").item(0).getTextContent();
+          String localDateString = ((Element) appElement)
+            .getElementsByTagName("applicationDate")
+            .item(0)
+            .getTextContent();
           LocalDate appliedDate = LocalDate.parse(localDateString);
 
           // Construct the job

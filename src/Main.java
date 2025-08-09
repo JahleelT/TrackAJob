@@ -43,6 +43,29 @@ public class Main {
         }
     }
 
+    public static BigDecimal promptBigDec(Scanner scnr, String prompt) {
+        BigDecimal result;
+
+        while (true) {
+            String answer = promptNonEmptyString(scnr, prompt)
+                .trim()
+                .replace(",", "")
+                .replace("$", "");
+
+            try {
+                result = new BigDecimal(answer);
+                if (result.compareTo(BigDecimal.ZERO) > 0) {
+                    break;
+                } else {
+                    System.out.println("Your input was not a postiive number. Please enter a positive number for the role's compensation.");
+                }
+            } catch (NumberFormatException e) {
+                System.err.println("Error encountered: Invalid number format. Please enter a positive number");
+            }
+        }
+        return result;
+    }
+
     public static URL promptURL(Scanner scnr, String prompt) {
         while (true) {
             String link = promptNonEmptyString(scnr, prompt);
@@ -100,7 +123,7 @@ public class Main {
                     String role;
                     String location;
                     WorkFormat workFormat;
-                    String paymentAmount;
+                    BigDecimal paymentAmount;
                     PaymentType paymentType;
                     URL trackingLink;
 
@@ -110,11 +133,11 @@ public class Main {
 
                     location = promptNonEmptyString(scnr, "What city is the role in?");
 
-                    workFormat = promptEnum(scnr, "Is the role in-person, hybrid, or remote?", WorkFormat::fromString);
+                    workFormat = promptEnum(scnr, "Is the role (i)n-person, (h)ybrid, or (r)emote? (enter one of the three letters)", WorkFormat::fromString);
 
-                    paymentAmount = promptNonEmptyString(scnr, "What is the pay?");
+                    paymentAmount = promptBigDec(scnr, "What is the pay?");
 
-                    paymentType = promptEnum(scnr, "What is the payment type?", PaymentType::fromString);
+                    paymentType = promptEnum(scnr, "Is the role (h)ourly, (s)alary, s(t)ipend, or (c)ommission? (enter one of the four letters)", PaymentType::fromString);
 
                     trackingLink = promptURL(scnr, "Enter the tracking link to the application");
 

@@ -17,12 +17,12 @@ public class JobApplication {
   private LocalDate appliedDate;
 
   // Add Job method constructor
-  public JobApplication(String company, String role, String location, WorkFormat workFormat, String paymentAmountStr, PaymentType paymentType, URL trackingLink) {
+  public JobApplication(String company, String role, String location, WorkFormat workFormat, BigDecimal paymentAmount, PaymentType paymentType, URL trackingLink) {
     this.company = company;
     this.role = role;
     this.location = location;
     this.workFormat = workFormat;
-    this.paymentAmount = new BigDecimal(paymentAmountStr);
+    this.paymentAmount = paymentAmount;
     this.paymentType = paymentType;
     this.stage = Stage.FIRST_ROUND;
     this.trackingLink = trackingLink;
