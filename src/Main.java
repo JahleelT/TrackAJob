@@ -2,6 +2,7 @@ import java.util.Scanner;
 import java.math.BigDecimal;
 import java.util.List;
 import java.net.URL;
+import java.util.function.Function;
 import java.net.MalformedURLException;
 import java.nio.charset.MalformedInputException;
 
@@ -9,6 +10,52 @@ import models.*;
 
 @SuppressWarnings("unused")
 public class Main {
+
+    public static boolean isBlank(String input) {
+        return input == null || input.trim().isEmpty();
+    }
+
+    public static String promptNonEmptyString(Scanner scnr, String prompt) {
+        String input;
+        do {
+            System.out.println(prompt);
+            input = scnr.nextLine();
+            if (isBlank(input)) {
+                System.out.println("Input cannot be empty/whitespace. Try again.");
+            }
+        } while (isBlank(input));
+        return input;
+    }
+
+    public static <T> T promptEnum(Scanner scnr, String prompt, Function<String, T> fromString) {
+
+        while (true) {
+            String answer = promptNonEmptyString(scnr, prompt).trim();
+
+            T value = fromString.apply(answer);
+
+            if (value != null) {
+                return value;
+            } else {
+                System.out.println("Invalid input. Try again.");
+                continue;
+            }
+        }
+    }
+
+    public static URL promptURL(Scanner scnr, String prompt) {
+        while (true) {
+            String link = promptNonEmptyString(scnr, prompt);
+            try {
+                URL url = new URL(link);
+                return url;
+            } catch (MalformedURLException e) {
+                System.err.println("Invalid URL format. Please try again with a valid URL.");
+                continue;
+            }
+        }
+    }
+    
     public static void main(String[] args) throws Exception {
         ApplicationManager manager = new ApplicationManager();
 
@@ -57,41 +104,19 @@ public class Main {
                     PaymentType paymentType;
                     URL trackingLink;
 
-                    System.out.println("What is the company name:");
-                    company = scnr.nextLine();
+                    company = promptNonEmptyString(scnr, "What is the company name:");
 
-                    System.out.println("Enter the job title:");
-                    role = scnr.nextLine();
+                    role = promptNonEmptyString(scnr, "Enter the job title:");
 
-                    System.out.println("What city is the role in?");
-                    location = scnr.nextLine();
+                    location = promptNonEmptyString(scnr, "What city is the role in?");
 
-                    System.out.println("Is the role in-person, hybrid, or remote?");
-                    String workFormatInput = scnr.nextLine();
+                    workFormat = promptEnum(scnr, "Is the role in-person, hybrid, or remote?", WorkFormat::fromString);
 
-                    workFormat = WorkFormat.fromString(workFormatInput);
-                    if (workFormat == null) {
-                        System.out.println("Invalid work format. Please enter: In person, Hybrid, or Remote");
-                        break;
-                    }
+                    paymentAmount = promptNonEmptyString(scnr, "What is the pay?");
 
-                    System.out.println("What is the pay?");
-                    paymentAmount = scnr.nextLine();
+                    paymentType = promptEnum(scnr, "What is the payment type?", PaymentType::fromString);
 
-                    System.out.println("What is the payment type?");
-                    String paymentTypeString = scnr.nextLine();
-
-                    paymentType = PaymentType.fromString(paymentTypeString);
-
-                    System.out.println("Enter link to where the application is housed"  );
-                    String trackingLinkString = scnr.nextLine();
-
-                    try {
-                        trackingLink = new URL(trackingLinkString);
-                    } catch (MalformedURLException e) {
-                        System.err.println("Invalid URL format. Please try again with a valid URL.");
-                        continue;
-                    }
+                    trackingLink = promptURL(scnr, "Enter the tracking link to the application");
 
                     JobApplication job = new JobApplication(company, role, location, workFormat, paymentAmount, paymentType, trackingLink);
 
