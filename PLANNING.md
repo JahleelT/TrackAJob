@@ -9,11 +9,10 @@ This document outlines the phases to enhance a Java CLI-based job tracker projec
 ### 1. Export to XML
 - [X] Write job application data to an XML file using file I/O.
 - [ ] Include proper escaping for special characters.
-- [ ] Implement the `fromString()` method via an interface to implement some inheritance
 
 ### 2. Import from XML (Planned)
-- Load previously saved job data at startup.
-- Handle malformed or missing XML gracefully.
+- [X] Load previously saved job data at startup.
+- [ ] Handle malformed or missing XML gracefully.
 
 ---
 

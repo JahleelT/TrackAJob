@@ -31,7 +31,8 @@ public class Main {
                 "5. Delete ALL Jobs" + "\n" +
                 "6. Show Job Count" + "\n" +
                 "7. Export Jobs" + "\n" +
-                "8. Exit" + "\n"
+                "8. Import Jobs" + "\n" +
+                "9. Exit" + "\n"
             );
 
             String input = scnr.nextLine();
@@ -217,6 +218,10 @@ public class Main {
                     break;
 
                 case 8:
+                    manager.importJobs();
+                    break;
+
+                case 9:
                     manager.exit();
                     isRunning = false;
                     break;

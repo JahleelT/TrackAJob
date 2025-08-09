@@ -121,60 +121,66 @@ public class ApplicationManager {
   }
 
   public void importJobs() {
-    try  {
-      // Open and prepare the file
-      File importFile = new File("applications.xml");
-      DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-      DocumentBuilder db = dbf.newDocumentBuilder();
-      Document doc = db.parse(importFile);
-      doc.normalize();
-      
-      // Prepare all args for constructor
-      NodeList nodes = doc.getElementsByTagName("application"); 
-      
-      for (int i = 0; i < nodes.getLength(); i++) {
-        Node node = nodes.item(i);
-        Element appElement = (Element) node;
 
-        String company = ((Element) appElement).getElementsByTagName("company").item(0).getTextContent();
+    if (!imported) {
+      try  {
+        // Open and prepare the file
+        File importFile = new File("applications.xml");
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        DocumentBuilder db = dbf.newDocumentBuilder();
+        Document doc = db.parse(importFile);
+        doc.normalize();
+        
+        // Prepare all args for constructor
+        NodeList nodes = doc.getElementsByTagName("application"); 
+        
+        for (int i = 0; i < nodes.getLength(); i++) {
+          Node node = nodes.item(i);
+          Element appElement = (Element) node;
 
-        String role = ((Element) appElement).getElementsByTagName("role").item(0).getTextContent();
+          String company = ((Element) appElement).getElementsByTagName("company").item(0).getTextContent();
 
-        String location = ((Element) appElement).getElementsByTagName("location").item(0).getTextContent();
+          String role = ((Element) appElement).getElementsByTagName("role").item(0).getTextContent();
 
-        String wfString = ((Element) appElement).getElementsByTagName("workFormat").item(0).getTextContent();
-        WorkFormat workFormat = WorkFormat.fromString(wfString);
+          String location = ((Element) appElement).getElementsByTagName("location").item(0).getTextContent();
 
-        String pString = ((Element) appElement).getElementsByTagName("payment").item(0).getTextContent();
-        String[] payParts = pString.split("/");
-        PaymentType paymentType = PaymentType.fromString(payParts[1]);
+          String wfString = ((Element) appElement).getElementsByTagName("workFormat").item(0).getTextContent();
+          WorkFormat workFormat = WorkFormat.fromString(wfString);
 
-        BigDecimal paymentAmount = new BigDecimal(payParts[0]); 
+          String pString = ((Element) appElement).getElementsByTagName("payment").item(0).getTextContent();
+          String[] payParts = pString.split("/");
+          PaymentType paymentType = PaymentType.fromString(payParts[1]);
 
-        String stageString = ((Element) appElement).getElementsByTagName("stage").item(0).getTextContent();
-        Stage stage = Stage.fromString(stageString);
+          BigDecimal paymentAmount = new BigDecimal(payParts[0]); 
 
-        String trackingLinkString = ((Element) appElement).getElementsByTagName("trackingLink").item(0).getTextContent();
-        URL trackingLink = new URL(trackingLinkString);
+          String stageString = ((Element) appElement).getElementsByTagName("stage").item(0).getTextContent();
+          Stage stage = Stage.fromString(stageString);
 
-        String localDateString = ((Element) appElement).getElementsByTagName("applicationDate").item(0).getTextContent();
-        LocalDate appliedDate = LocalDate.parse(localDateString);
+          String trackingLinkString = ((Element) appElement).getElementsByTagName("trackingLink").item(0).getTextContent();
+          URL trackingLink = new URL(trackingLinkString);
 
-        // Construct the job
-        JobApplication job = new JobApplication(company, role, location, workFormat, paymentAmount, paymentType, stage, trackingLink, appliedDate);
+          String localDateString = ((Element) appElement).getElementsByTagName("applicationDate").item(0).getTextContent();
+          LocalDate appliedDate = LocalDate.parse(localDateString);
 
-        // Add the job
-        addApplication(job);
+          // Construct the job
+          JobApplication job = new JobApplication(company, role, location, workFormat, paymentAmount, paymentType, stage, trackingLink, appliedDate);
+
+          // Add the job
+          addApplication(job);
+        }
+
+        
+
+        imported = true;
+        System.out.println("Successfully loaded jobs!");
+        
+      } catch (NullPointerException | ParserConfigurationException | IOException | SAXException e) {
+        System.err.println("Error encountered, " + e);
       }
-
-      
-
-      imported = true;
-      System.out.println("Successfully loaded jobs!");
-      
-    } catch (NullPointerException | ParserConfigurationException | IOException | SAXException e) {
-      System.err.println("Error encountered, " + e);
+    } else {
+      System.out.println("You have to delete all jobs before you can import these jobs again.");
     }
+
 
   }
 
