@@ -1,7 +1,16 @@
+// Data type imports
 import java.util.ArrayList;
 import java.util.List;
+import java.math.BigDecimal;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
+
+// File manipulation/creation related imports
 import java.io.FileWriter;
 import java.io.File;
+import java.io.FileOutputStream;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -9,12 +18,21 @@ import org.w3c.dom.Node;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+
+// Exception imports
 import org.xml.sax.SAXException;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+
+// XML Streaming
+import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamWriter;
+import javax.xml.stream.XMLStreamException;
+
+// Logging import
 import java.util.logging.*;
-import java.math.BigDecimal;
-import java.net.URL;
-import java.time.LocalDate;
+
+// Custom model imports
 import models.JobApplication;
 import models.PaymentType;
 import models.WorkFormat;
@@ -89,6 +107,16 @@ public class ApplicationManager {
   public void exportJobs() {
       // Create file
       try (FileWriter exportFile = new FileWriter("applications.xml")) {
+        XMLOutputFactory xof = XMLOutputFactory.newInstance();
+
+        FileOutputStream fos = new FileOutputStream("applications.xml");
+        OutputStreamWriter osw = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
+
+        XMLStreamWriter xsw = xof.createXMLStreamWriter(osw);
+
+
+
+        
         // open the applicationS outer container
         exportFile.write("<applications>\n");
 
@@ -115,7 +143,7 @@ public class ApplicationManager {
 
         imported = true;
 
-      } catch (IOException e) {
+      } catch (IOException | XMLStreamException e) {
         e.printStackTrace();
       };
   }
