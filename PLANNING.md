@@ -15,39 +15,39 @@ This document outlines the phases to enhance a Java CLI-based job tracker projec
 
 ---
 
-## [ ] Phase 2: Usability & Robustness
+## [X] Phase 2: Usability & Robustness
 
-### [ ] 3. Input Validation
+### [X] 3. Input Validation
 - [X] Prevent empty fields 
 - [X] Prevent invalid values from being accepted.
 - [X] Sanitize user input where needed.
 - [X] Include proper escaping for special characters (regarding XML exports).
-- [ ] Handle malformed or missing XML gracefully (regarding XML imports).
+- [X] Handle malformed or missing XML gracefully (regarding XML imports).
 
-### [ ] 4. Error Handling
-- [ ] Gracefully handle I/O exceptions (e.g., missing files).
-- [ ] Catch invalid menu choices and unexpected inputs.
+### [X] 4. Error Handling
+- [X] Gracefully handle I/O exceptions (e.g., missing files).
+- [X] Catch invalid menu choices and unexpected inputs.
 
-### [ ] 5. Logging
-- [ ] Replace `System.out.println()` with `Logger`.
-- [ ] Log major actions: add, delete, export, import.
+### [X] 5. Logging
+- [X] Replace `System.out.println()` with `Logger`.
+- [X] Log major actions: add, delete, export, import.
 
 ---
 
 ## [ ] Phase 3: Structure & Design
 
-### [ ] 6. Package Refactoring
-- [ ] Organize files into logical packages:
-  - [ ] `model` for data classes
-  - [ ] `service` for logic
-  - [ ] `ui` for user interaction
+### [X] 6. Package Refactoring
+- [X] Organize files into logical packages:
+  - [X] `model` for data classes
+  - [X] `service` for logic
+  - [X] `ui` for user interaction
 
-### [ ] 7. Use Enums for Status
-- [ ] Replace string status fields with `enum` types for safety and clarity.
+### [X] 7. Use Enums for Status
+- [X] Replace string status fields with `enum` types for safety and clarity.
 
 ### [ ] 8. Improve CLI Menu UX
 - [ ] Add submenus, clearer instructions, and input prompts.
-- [ ] Allow repeated actions without restarting the app.
+- [X] Allow repeated actions without restarting the app.
 
 ---
 

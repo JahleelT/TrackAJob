@@ -1,3 +1,5 @@
+package ui;
+
 import java.util.Scanner;
 import java.math.BigDecimal;
 import java.util.List;
@@ -5,11 +7,14 @@ import java.net.URL;
 import java.util.function.Function;
 import java.net.MalformedURLException;
 import java.nio.charset.MalformedInputException;
-
+import java.util.logging.Logger;
 import models.*;
+import service.ApplicationManager;
 
 @SuppressWarnings("unused")
 public class Main {
+
+    private static final Logger logger = Logger.getLogger(Main.class.getName());
 
     public static boolean isBlank(String input) {
         return input == null || input.trim().isEmpty();
@@ -18,10 +23,10 @@ public class Main {
     public static String promptNonEmptyString(Scanner scnr, String prompt) {
         String input;
         do {
-            System.out.println(prompt);
+            logger.info(prompt);
             input = scnr.nextLine();
             if (isBlank(input)) {
-                System.out.println("Input cannot be empty/whitespace. Try again.");
+                logger.info("Input cannot be empty/whitespace. Try again.");
             }
         } while (isBlank(input));
         return input;
@@ -37,7 +42,7 @@ public class Main {
             if (value != null) {
                 return value;
             } else {
-                System.out.println("Invalid input. Try again.");
+                logger.info("Invalid input. Try again.");
                 continue;
             }
         }
@@ -57,10 +62,10 @@ public class Main {
                 if (result.compareTo(BigDecimal.ZERO) > 0) {
                     break;
                 } else {
-                    System.out.println("Your input was not a postiive number. Please enter a positive number for the role's compensation.");
+                    logger.info("Your input was not a postiive number. Please enter a positive number for the role's compensation.");
                 }
             } catch (NumberFormatException e) {
-                System.err.println("Error encountered: Invalid number format. Please enter a positive number");
+                logger.severe("Error encountered: Invalid number format. Please enter a positive number");
             }
         }
         return result;
@@ -73,7 +78,7 @@ public class Main {
                 URL url = new URL(link);
                 return url;
             } catch (MalformedURLException e) {
-                System.err.println("Invalid URL format. Please try again with a valid URL.");
+                logger.severe("Invalid URL format. Please try again with a valid URL.");
                 continue;
             }
         }
@@ -89,11 +94,11 @@ public class Main {
 
         boolean isRunning = true;
 
-        System.out.println("Welcome to your job application manager :)");
+        logger.info("Welcome to your job application manager :)");
 
         while (isRunning) {
-            System.out.println("Please select a number corresponding to an action you would like to take :)");
-            System.out.println(
+            logger.info("Please select a number corresponding to an action you would like to take :)");
+            logger.info(
                 "1. Add a Job" + "\n" +
                 "2. View All Jobs" + "\n" +
                 "3. View Jobs at a Certain Stage" + "\n" +
@@ -102,18 +107,19 @@ public class Main {
                 "6. Show Job Count" + "\n" +
                 "7. Export Jobs" + "\n" +
                 "8. Import Jobs" + "\n" +
-                "9. Exit" + "\n"
+                "9. Exit" + "\n" +
+                "11. View Jobs" + "\n" 
             );
 
             String input = scnr.nextLine();
-            System.out.println("\n");
+            logger.info("\n");
 
             try {
                 num = Integer.parseInt(input);
             } catch (NumberFormatException e) {
-                System.err.println(e);
-                System.out.println("Your input is not valid. Please enter a valid NUMBER");
-                System.out.println("\n");
+                logger.severe("Error encountered: " + e.getMessage());
+                logger.info("Your input is not valid. Please enter a valid NUMBER");
+                logger.info("\n");
                 continue;
             }
 
@@ -145,33 +151,66 @@ public class Main {
 
                     manager.addApplication(job);
 
-                    System.out.println("Job successfully added!");
-                    System.out.println("\n");
+                    logger.info("Job successfully added!");
+                    logger.info("\n");
                     
                     break;
             
                 case 2:
                     if (manager.getJobCount() == 0) {
-                        System.out.println("There are no jobs at this time. Please add some jobs you have applied for.");
-                        System.out.println("\n");
+                        logger.info("There are no jobs at this time. Please add some jobs you have applied for.");
+                        logger.info("\n");
                         break;
                     }
                     manager.viewApplications();
-                    System.out.println("\n");
+                    logger.info("\n");
+                    break;
+
+                case 11:
+                    logger.info(
+                        "Please select an option below:" + "\n" +
+                        "1. View ALL Jobs" + "\n" +
+                        "2. View Jobs at a Certain Stage" + "\n"
+                    );
+
+                    input = scnr.nextLine();
+                    switch (Integer.parseInt(input)) {
+                        case 1:
+                            manager.viewApplications();
+                            break;
+                        
+                        case 2:
+                            String message;
+                            logger.info(
+                                "What stage would you like to see jobs of?" + "\n" +
+                                "1. First Round" + "\n" +
+                                "2. Second Round" + "\n" +
+                                "3. Third Round" + "\n" +
+                                "4. Fourth Round" + "\n" +
+                                "5. Fifth Round" + "\n" + 
+                                "6. Sixth Round" + "\n" + 
+                                "7. Final Round" + "\n"
+                            );
+                            message = scnr.nextLine();
+                            manager.viewStageJobs(message);
+                            break;
+                        default:
+                            break;
+                    }
                     break;
 
                 case 3:
                     String inputStage = "";
 
                     if (manager.getJobCount() == 0) {
-                        System.out.println("There are no jobs at this time. Please add some jobs you have applied for.");
-                        System.out.println("\n");
+                        logger.info("There are no jobs at this time. Please add some jobs you have applied for.");
+                        logger.info("\n");
                         break;
                     }
 
-                    System.out.println("Enter the stage you would like to view: (S)ent, (I)nterviewing, (O)ffered, (A)ccepted, (R)ejected");
+                    logger.info("Enter the stage you would like to view: (S)ent, (I)nterviewing, (O)ffered, (A)ccepted, (R)ejected");
                     String letter = scnr.nextLine();
-                    System.out.println("\n");
+                    logger.info("\n");
 
 
                     switch (letter.toLowerCase()) {
@@ -200,11 +239,11 @@ public class Main {
                     }
 
                     if (inputStage.isEmpty()) {
-                        System.out.println("Invalid stage selection");
+                        logger.info("Invalid stage selection");
                     } else {
                         List<String> resultingList = manager.viewStageJobs(inputStage);
                         for (String jobString : resultingList) {
-                            System.out.println(jobString);
+                            logger.info(jobString);
                         }
                     }
 
@@ -215,8 +254,8 @@ public class Main {
                 case 4:
 
                     if (manager.getJobCount() == 0) {
-                        System.out.println("There are no jobs at this time. Please add some jobs you have applied for.");
-                        System.out.println("\n");
+                        logger.info("There are no jobs at this time. Please add some jobs you have applied for.");
+                        logger.info("\n");
                         break;
                     }
                     // tbd stands for "to be deleted"
@@ -224,7 +263,7 @@ public class Main {
 
                     manager.viewApplications();
 
-                    System.out.println(
+                    logger.info(
                         "The currently saved jobs have been listed again for your convenience" 
                         + "\n" + 
                         "Enter the number for the job you would like to delete:"
@@ -235,29 +274,29 @@ public class Main {
                     try {
                         tbd = Integer.parseInt(tempResult);
                     } catch (NumberFormatException e) {
-                        System.err.println(e);
-                        System.out.println("Please enter a valid number.");
+                        logger.severe("Error encountered: " + e.getMessage());
+                        logger.info("Please enter a valid number.");
                         break;
                     }
                     
                     resultMessage = manager.deleteJob(tbd);
-                    System.out.println(resultMessage);
+                    logger.info(resultMessage);
                     break;
                 
                 case 5:
                     resultMessage = manager.deleteAllJobs();
-                    System.out.println(resultMessage);
+                    logger.info(resultMessage);
                     break;
 
                 case 6:
                     Integer jobCount = manager.getJobCount();
-                    System.out.println("You have currently logged " + jobCount + " jobs.");
-                    System.out.println("\n");
+                    logger.info("You have currently logged " + jobCount + " jobs.");
+                    logger.info("\n");
                     break;
                 
                 case 7:
                     manager.exportJobs();
-                    System.out.println("Jobs successfully exported!");
+                    logger.info("Jobs successfully exported!");
                     break;
 
                 case 8:

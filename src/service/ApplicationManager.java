@@ -1,3 +1,5 @@
+package service;
+
 // Data type imports
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +43,8 @@ public class ApplicationManager {
 
   private ArrayList<JobApplication> jobs = new ArrayList<>();
 
+  private static final Logger logger = Logger.getLogger(ApplicationManager.class.getName());
+
   private boolean imported;
 
   public ApplicationManager() {
@@ -53,11 +57,11 @@ public class ApplicationManager {
 
   public void viewApplications() {
     if (jobs.size() == 0) {
-      System.out.println("No jobs have been added yet. Please add 1 or more jobs and try again!");
+      logger.info("No jobs have been added yet. Please add 1 or more jobs and try again!");
     } else {
       for (int i = 0; i < jobs.size(); i++) {
         Integer number = i + 1;
-        System.out.println(number + ". " + jobs.get(i).toString());
+        logger.info(number + ". " + jobs.get(i).toString());
       }
     }
   }
@@ -90,7 +94,7 @@ public class ApplicationManager {
     }
 
     if (stageJobs.size() == 0) {
-      System.out.println("There are no jobs of stage: " + stage);
+      logger.info("There are no jobs of stage: " + stage);
     }
 
     return stageJobs;
@@ -106,6 +110,7 @@ public class ApplicationManager {
   public void exportJobs() {
       // Create file
       try {
+        // Setting up XML Stream helpers
         XMLOutputFactory xof = XMLOutputFactory.newInstance();
 
         FileOutputStream fos = new FileOutputStream("applications.xml");
@@ -113,70 +118,83 @@ public class ApplicationManager {
 
         XMLStreamWriter xsw = xof.createXMLStreamWriter(osw);
 
+
+        // Starting document
         xsw.writeStartDocument("UTF-8", "1.0");
         xsw.writeCharacters("\n");
         xsw.writeStartElement("applications");
         xsw.writeCharacters("\n");
 
         for (JobApplication job: jobs) {
+          // Individual application and attributes below
           xsw.writeCharacters("    ");
           xsw.writeStartElement("application");
           xsw.writeCharacters("\n");
 
+          // Company attr
           xsw.writeCharacters("        ");
           xsw.writeStartElement("company");
           xsw.writeCharacters(job.getCompany());
           xsw.writeEndElement();
           xsw.writeCharacters("\n");
 
+          // Role attr
           xsw.writeCharacters("        ");
           xsw.writeStartElement("role");
           xsw.writeCharacters(job.getRole());
           xsw.writeEndElement();
           xsw.writeCharacters("\n");
 
+          // Location attr
           xsw.writeCharacters("        ");
           xsw.writeStartElement("location");
           xsw.writeCharacters(job.getLocation());
           xsw.writeEndElement();
           xsw.writeCharacters("\n");
 
+          // workFormat attr
           xsw.writeCharacters("        ");
           xsw.writeStartElement("workFormat");
           xsw.writeCharacters(job.getWorkFormatString());
           xsw.writeEndElement();
           xsw.writeCharacters("\n");
 
+          // PaymentAmount & PaymentType attrs
           xsw.writeCharacters("        ");
           xsw.writeStartElement("payment");
           xsw.writeCharacters(job.getPayment().toString() + "/" + job.getPayTypeString());
           xsw.writeEndElement();
           xsw.writeCharacters("\n");
 
+          // Stage attr
           xsw.writeCharacters("        ");
           xsw.writeStartElement("stage");
           xsw.writeCharacters(job.getStageString());
           xsw.writeEndElement();
           xsw.writeCharacters("\n");
 
+          // trackingLink attr
           xsw.writeCharacters("        ");
           xsw.writeStartElement("trackingLink");
           xsw.writeCharacters(job.getTrackingLink().toString());
           xsw.writeEndElement();
           xsw.writeCharacters("\n");
 
+          // appliedDate attr
           xsw.writeCharacters("        ");
           xsw.writeStartElement("appliedDate");
           xsw.writeCharacters(job.getAppliedDateString());
           xsw.writeEndElement();
           xsw.writeCharacters("\n");
 
+          // Ending application element
           xsw.writeCharacters("    ");
           xsw.writeEndElement();
           xsw.writeCharacters("\n");
 
         }
         
+        // Closing out file
         xsw.writeEndElement();
         xsw.writeEndDocument();
         xsw.flush();
@@ -266,20 +284,20 @@ public class ApplicationManager {
             // Add the job
             addApplication(job);
           } catch (Exception e) {
-            System.err.println("Skipping malformed job entry at index " + i + ": " + e.getMessage());
+            logger.severe("Skipping malformed job entry at index " + i + ": " + e.getMessage());
           }
         }
 
         
 
         imported = true;
-        System.out.println("Successfully loaded jobs!");
+        logger.info("Successfully loaded jobs!");
         
       } catch (NullPointerException | ParserConfigurationException | IOException | SAXException | IllegalArgumentException | DateTimeParseException e) {
-        System.err.println("Error encountered, " + e);
+        logger.severe("Failed to import jobs, " + e.getMessage());
       }
     } else {
-      System.out.println("You have to delete all jobs before you can import these jobs again.");
+      logger.info("You have to delete all jobs before you can import these jobs again.");
     }
 
 
@@ -291,7 +309,7 @@ public class ApplicationManager {
   }
 
   public void exit() {
-    System.out.println("Program shutting down, it's been fun! Have a good one :)");
+    logger.info("Program shutting down, it's been fun! Have a good one :)");
   }
 
 
