@@ -21,7 +21,7 @@ This document outlines the phases to enhance a Java CLI-based job tracker projec
 - [X] Prevent empty fields 
 - [X] Prevent invalid values from being accepted.
 - [X] Sanitize user input where needed.
-- [ ] Include proper escaping for special characters (regarding XML exports).
+- [X] Include proper escaping for special characters (regarding XML exports).
 - [ ] Handle malformed or missing XML gracefully (regarding XML imports).
 
 ### [ ] 4. Error Handling

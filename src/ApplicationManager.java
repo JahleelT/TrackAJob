@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
-
+import java.time.format.DateTimeParseException;
 // File manipulation/creation related imports
 import java.io.File;
 import java.io.FileOutputStream;
@@ -170,7 +170,7 @@ public class ApplicationManager {
           xsw.writeCharacters(job.getAppliedDateString());
           xsw.writeEndElement();
           xsw.writeCharacters("\n");
-          
+
           xsw.writeCharacters("    ");
           xsw.writeEndElement();
           xsw.writeCharacters("\n");
@@ -204,66 +204,70 @@ public class ApplicationManager {
         NodeList nodes = doc.getElementsByTagName("application"); 
         
         for (int i = 0; i < nodes.getLength(); i++) {
-          Node node = nodes.item(i);
-          Element appElement = (Element) node;
+          try {
+            Node node = nodes.item(i);
+            Element appElement = (Element) node;
 
-          String company = ((Element) appElement)
-            .getElementsByTagName("company")
-            .item(0)
-            .getTextContent()
-            .trim();
+            String company = ((Element) appElement)
+              .getElementsByTagName("company")
+              .item(0)
+              .getTextContent()
+              .trim();
 
-          String role = ((Element) appElement)
-            .getElementsByTagName("role")
-            .item(0)
-            .getTextContent()
-            .trim();
+            String role = ((Element) appElement)
+              .getElementsByTagName("role")
+              .item(0)
+              .getTextContent()
+              .trim();
 
-          String location = ((Element) appElement)
-            .getElementsByTagName("location")
-            .item(0)
-            .getTextContent()
-            .trim();
+            String location = ((Element) appElement)
+              .getElementsByTagName("location")
+              .item(0)
+              .getTextContent()
+              .trim();
 
-          String wfString = ((Element) appElement)
-            .getElementsByTagName("workFormat")
-            .item(0)
-            .getTextContent();
-          WorkFormat workFormat = WorkFormat.fromString(wfString);
+            String wfString = ((Element) appElement)
+              .getElementsByTagName("workFormat")
+              .item(0)
+              .getTextContent();
+            WorkFormat workFormat = WorkFormat.fromString(wfString);
 
-          String pString = ((Element) appElement)
-            .getElementsByTagName("payment")
-            .item(0)
-            .getTextContent();
-          String[] payParts = pString.split("/");
+            String pString = ((Element) appElement)
+              .getElementsByTagName("payment")
+              .item(0)
+              .getTextContent();
+            String[] payParts = pString.split("/");
 
-          BigDecimal paymentAmount = new BigDecimal(payParts[0]); 
+            BigDecimal paymentAmount = new BigDecimal(payParts[0]); 
 
-          PaymentType paymentType = PaymentType.fromString(payParts[1]);
+            PaymentType paymentType = PaymentType.fromString(payParts[1]);
 
-          String stageString = ((Element) appElement)
-            .getElementsByTagName("stage")
-            .item(0)
-            .getTextContent();
-          Stage stage = Stage.fromString(stageString);
+            String stageString = ((Element) appElement)
+              .getElementsByTagName("stage")
+              .item(0)
+              .getTextContent();
+            Stage stage = Stage.fromString(stageString);
 
-          String trackingLinkString = ((Element) appElement)
-            .getElementsByTagName("trackingLink")
-            .item(0)
-            .getTextContent();
-          URL trackingLink = new URL(trackingLinkString);
+            String trackingLinkString = ((Element) appElement)
+              .getElementsByTagName("trackingLink")
+              .item(0)
+              .getTextContent();
+            URL trackingLink = new URL(trackingLinkString);
 
-          String localDateString = ((Element) appElement)
-            .getElementsByTagName("appliedDate")
-            .item(0)
-            .getTextContent();
-          LocalDate appliedDate = LocalDate.parse(localDateString);
+            String localDateString = ((Element) appElement)
+              .getElementsByTagName("appliedDate")
+              .item(0)
+              .getTextContent();
+            LocalDate appliedDate = LocalDate.parse(localDateString);
 
-          // Construct the job
-          JobApplication job = new JobApplication(company, role, location, workFormat, paymentAmount, paymentType, stage, trackingLink, appliedDate);
+            // Construct the job
+            JobApplication job = new JobApplication(company, role, location, workFormat, paymentAmount, paymentType, stage, trackingLink, appliedDate);
 
-          // Add the job
-          addApplication(job);
+            // Add the job
+            addApplication(job);
+          } catch (Exception e) {
+            System.err.println("Skipping malformed job entry at index " + i + ": " + e.getMessage());
+          }
         }
 
         
@@ -271,7 +275,7 @@ public class ApplicationManager {
         imported = true;
         System.out.println("Successfully loaded jobs!");
         
-      } catch (NullPointerException | ParserConfigurationException | IOException | SAXException e) {
+      } catch (NullPointerException | ParserConfigurationException | IOException | SAXException | IllegalArgumentException | DateTimeParseException e) {
         System.err.println("Error encountered, " + e);
       }
     } else {
