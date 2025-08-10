@@ -245,11 +245,6 @@ public class Main {
                     break;
                 
                 case 5:
-                    if (manager.getJobCount() == 0) {
-                        System.out.println("There are no jobs to delete at this time. Please add some jobs you have applied for.");
-                        System.out.println("\n");
-                        break;
-                    }
                     resultMessage = manager.deleteAllJobs();
                     System.out.println(resultMessage);
                     break;

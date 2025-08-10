@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<applications>
+  <application>
+    <company>AT&amp;T</company>
+    <role>Junior Dev</role>
+    <location>New York &gt; Manhattan</location>
+    <workFormat>Hybrid</workFormat>
+    <payment>5000/salary</payment>
+    <stage>first</stage>
+    <trackingLink>http://example.com/jobs?id=123&amp;ref=abc</trackingLink>
+    <appliedDate>2025-08-10</appliedDate>
+  </application>
+</applications>

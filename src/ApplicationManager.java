@@ -218,7 +218,6 @@ public class ApplicationManager {
 
           PaymentType paymentType = PaymentType.fromString(payParts[1]);
 
-
           String stageString = ((Element) appElement)
             .getElementsByTagName("stage")
             .item(0)
@@ -232,7 +231,7 @@ public class ApplicationManager {
           URL trackingLink = new URL(trackingLinkString);
 
           String localDateString = ((Element) appElement)
-            .getElementsByTagName("applicationDate")
+            .getElementsByTagName("appliedDate")
             .item(0)
             .getTextContent();
           LocalDate appliedDate = LocalDate.parse(localDateString);
