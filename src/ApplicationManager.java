@@ -114,46 +114,69 @@ public class ApplicationManager {
         XMLStreamWriter xsw = xof.createXMLStreamWriter(osw);
 
         xsw.writeStartDocument("UTF-8", "1.0");
+        xsw.writeCharacters("\n");
         xsw.writeStartElement("applications");
-        for (JobApplication job: jobs) {
-          xsw.writeStartElement("application");
+        xsw.writeCharacters("\n");
 
+        for (JobApplication job: jobs) {
+          xsw.writeCharacters("    ");
+          xsw.writeStartElement("application");
+          xsw.writeCharacters("\n");
+
+          xsw.writeCharacters("        ");
           xsw.writeStartElement("company");
           xsw.writeCharacters(job.getCompany());
           xsw.writeEndElement();
+          xsw.writeCharacters("\n");
 
+          xsw.writeCharacters("        ");
           xsw.writeStartElement("role");
           xsw.writeCharacters(job.getRole());
           xsw.writeEndElement();
+          xsw.writeCharacters("\n");
 
+          xsw.writeCharacters("        ");
           xsw.writeStartElement("location");
           xsw.writeCharacters(job.getLocation());
           xsw.writeEndElement();
+          xsw.writeCharacters("\n");
 
+          xsw.writeCharacters("        ");
           xsw.writeStartElement("workFormat");
           xsw.writeCharacters(job.getWorkFormatString());
           xsw.writeEndElement();
+          xsw.writeCharacters("\n");
 
+          xsw.writeCharacters("        ");
           xsw.writeStartElement("payment");
           xsw.writeCharacters(job.getPayment().toString() + "/" + job.getPayTypeString());
           xsw.writeEndElement();
+          xsw.writeCharacters("\n");
 
+          xsw.writeCharacters("        ");
           xsw.writeStartElement("stage");
           xsw.writeCharacters(job.getStageString());
           xsw.writeEndElement();
+          xsw.writeCharacters("\n");
 
+          xsw.writeCharacters("        ");
           xsw.writeStartElement("trackingLink");
           xsw.writeCharacters(job.getTrackingLink().toString());
           xsw.writeEndElement();
+          xsw.writeCharacters("\n");
 
+          xsw.writeCharacters("        ");
           xsw.writeStartElement("appliedDate");
           xsw.writeCharacters(job.getAppliedDateString());
           xsw.writeEndElement();
-
+          xsw.writeCharacters("\n");
+          
+          xsw.writeCharacters("    ");
           xsw.writeEndElement();
+          xsw.writeCharacters("\n");
 
         }
-
+        
         xsw.writeEndElement();
         xsw.writeEndDocument();
         xsw.flush();
