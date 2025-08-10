@@ -27,7 +27,6 @@ public enum Stage {
         return stage;
       }
     }
-
-    return null;
+    return Stage.FIRST_ROUND;
   }
 }

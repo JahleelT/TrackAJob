@@ -7,7 +7,6 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 
 // File manipulation/creation related imports
-import java.io.FileWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 
@@ -106,7 +105,7 @@ public class ApplicationManager {
 
   public void exportJobs() {
       // Create file
-      try (FileWriter exportFile = new FileWriter("applications.xml")) {
+      try {
         XMLOutputFactory xof = XMLOutputFactory.newInstance();
 
         FileOutputStream fos = new FileOutputStream("applications.xml");
@@ -114,33 +113,52 @@ public class ApplicationManager {
 
         XMLStreamWriter xsw = xof.createXMLStreamWriter(osw);
 
+        xsw.writeStartDocument("UTF-8", "1.0");
+        xsw.writeStartElement("applications");
+        for (JobApplication job: jobs) {
+          xsw.writeStartElement("application");
 
+          xsw.writeStartElement("company");
+          xsw.writeCharacters(job.getCompany());
+          xsw.writeEndElement();
 
-        
-        // open the applicationS outer container
-        exportFile.write("<applications>\n");
+          xsw.writeStartElement("role");
+          xsw.writeCharacters(job.getRole());
+          xsw.writeEndElement();
 
+          xsw.writeStartElement("location");
+          xsw.writeCharacters(job.getLocation());
+          xsw.writeEndElement();
 
-        for (JobApplication job : jobs) {
+          xsw.writeStartElement("workFormat");
+          xsw.writeCharacters(job.getWorkFormatString());
+          xsw.writeEndElement();
 
-          // open the application inner container
-          exportFile.write("  <application>\n");
+          xsw.writeStartElement("payment");
+          xsw.writeCharacters(job.getPayment().toString() + "/" + job.getPayTypeString());
+          xsw.writeEndElement();
 
-          exportFile.write(String.format("    <company>%s</company>\n", job.getCompany()));
-          exportFile.write(String.format("    <role>%s</role>\n", job.getRole()));
-          exportFile.write(String.format("    <location>%s</location>\n", job.getLocation()));
-          exportFile.write(String.format("    <workFormat>%s</workFormat>\n", job.getWorkFormatString()));
-          exportFile.write(String.format("    <payment>%s/%s</payment>", job.getPayment(), job.getPayTypeString()));
-          exportFile.write(String.format("    <stage>%s</stage>\n", job.getStageString()));
-          exportFile.write(String.format("    <trackingLink>%s</trackingLink>\n", job.getTrackingLink()));
-          exportFile.write(String.format("    <applicationDate>%s</applicationDate>\n", job.getAppliedDateString()));
+          xsw.writeStartElement("stage");
+          xsw.writeCharacters(job.getStageString());
+          xsw.writeEndElement();
 
+          xsw.writeStartElement("trackingLink");
+          xsw.writeCharacters(job.getTrackingLink().toString());
+          xsw.writeEndElement();
 
-          exportFile.write("  </application>\n");
+          xsw.writeStartElement("appliedDate");
+          xsw.writeCharacters(job.getAppliedDateString());
+          xsw.writeEndElement();
+
+          xsw.writeEndElement();
+
         }
 
-        exportFile.write("</applications>\n");
-
+        xsw.writeEndElement();
+        xsw.writeEndDocument();
+        xsw.flush();
+        xsw.close();
+        
         imported = true;
 
       } catch (IOException | XMLStreamException e) {
@@ -254,3 +272,29 @@ public class ApplicationManager {
 
 
 }
+
+
+// SCRAPPED CODE BLOCKS
+/*
+        exportFile.write("<applications>\n");
+
+
+        for (JobApplication job : jobs) {
+
+          exportFile.write("  <application>\n");
+
+          exportFile.write(String.format("    <company>%s</company>\n", job.getCompany()));
+          exportFile.write(String.format("    <role>%s</role>\n", job.getRole()));
+          exportFile.write(String.format("    <location>%s</location>\n", job.getLocation()));
+          exportFile.write(String.format("    <workFormat>%s</workFormat>\n", job.getWorkFormatString()));
+          exportFile.write(String.format("    <payment>%s/%s</payment>", job.getPayment(), job.getPayTypeString()));
+          exportFile.write(String.format("    <stage>%s</stage>\n", job.getStageString()));
+          exportFile.write(String.format("    <trackingLink>%s</trackingLink>\n", job.getTrackingLink()));
+          exportFile.write(String.format("    <applicationDate>%s</applicationDate>\n", job.getAppliedDateString()));
+
+
+          exportFile.write("  </application>\n");
+        }
+
+        exportFile.write("</applications>\n");
+ */
