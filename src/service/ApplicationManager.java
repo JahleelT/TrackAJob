@@ -80,24 +80,24 @@ public class ApplicationManager {
 
   }
 
-  public List<String> viewStageJobs(String stage) {
+  public void viewStageJobs(Stage stage) {
     List<String> stageJobs = new ArrayList<>();
 
     if (jobs.isEmpty()) {
-      return stageJobs;
-    }
+      System.out.println("There are no jobs to show or look through. Please add some jobs first!");
+    } else {
+      for (JobApplication job : jobs) {
+        if (job.getStage() == stage) {
+          stageJobs.add(job.toString());
+        }  
+      }
 
-    for (int i = 0; i < jobs.size(); i++) {
-      if (jobs.get(i).getStage().equals(stage)) {
-        stageJobs.add(jobs.get(i).toString());
-      }  
-    }
+      if (stageJobs.isEmpty()) {
+        logger.info("There are no jobs of stage: " + stage);
+      }
 
-    if (stageJobs.size() == 0) {
-      logger.info("There are no jobs of stage: " + stage);
+      System.out.println(stageJobs);
     }
-
-    return stageJobs;
 
   }
 

@@ -1,13 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <applications>
     <application>
-        <company>AT&amp;T</company>
+        <company>Palantir</company>
+        <role>Forward Deployed Engineer</role>
+        <location>NYC</location>
+        <workFormat>Hybrid</workFormat>
+        <payment>80000/salary</payment>
+        <stage>second</stage>
+        <trackingLink>https://www.google.com/maps</trackingLink>
+        <appliedDate>2025-08-10</appliedDate>
+    </application>
+    <application>
+        <company>Dev10</company>
         <role>Junior Dev</role>
         <location>NYC</location>
         <workFormat>Hybrid</workFormat>
-        <payment>5000/salary</payment>
-        <stage>first</stage>
+        <payment>55000/salary</payment>
+        <stage>fifth</stage>
         <trackingLink>https://www.google.com/maps</trackingLink>
+        <appliedDate>2025-08-10</appliedDate>
+    </application>
+    <application>
+        <company>Google</company>
+        <role>Software Engineer</role>
+        <location>NYC</location>
+        <workFormat>Hybrid</workFormat>
+        <payment>54000/salary</payment>
+        <stage>first</stage>
+        <trackingLink>https://google.com/careers</trackingLink>
         <appliedDate>2025-08-10</appliedDate>
     </application>
 </applications>

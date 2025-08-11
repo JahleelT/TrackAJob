@@ -132,7 +132,7 @@ public class JobApplication {
       "Payment Type: " + paymentType.getPayType() + " | " +
       "Stage: " + stage.getStage() + " | " +
       "Tracking Link: " + trackingLink + " | " +
-      "Date of Application: " + appliedDate + " | ";
+      "Date of Application: " + appliedDate + " | " + "\n";
   }
 
 
