@@ -30,4 +30,34 @@
         <trackingLink>https://google.com/careers</trackingLink>
         <appliedDate>2025-08-10</appliedDate>
     </application>
+    <application>
+        <company>CapGemini</company>
+        <role>Junior Dev</role>
+        <location>NYC</location>
+        <workFormat>Hybrid</workFormat>
+        <payment>65000/salary</payment>
+        <stage>first</stage>
+        <trackingLink>https://google.com/careers</trackingLink>
+        <appliedDate>2025-08-10</appliedDate>
+    </application>
+    <application>
+        <company>Microsoft</company>
+        <role>Entry Level Software Engineer</role>
+        <location>NYC</location>
+        <workFormat>Hybrid</workFormat>
+        <payment>90000/salary</payment>
+        <stage>first</stage>
+        <trackingLink>https://microsoft.com/careers</trackingLink>
+        <appliedDate>2025-07-8</appliedDate>
+    </application>
+    <application>
+        <company>Amazon</company>
+        <role>AI ML Engineer</role>
+        <location>NYC</location>
+        <workFormat>Hybrid</workFormat>
+        <payment>72000/salary</payment>
+        <stage>first</stage>
+        <trackingLink>https://amazon.com/careers</trackingLink>
+        <appliedDate>2025-08-10</appliedDate>
+    </application>
 </applications>

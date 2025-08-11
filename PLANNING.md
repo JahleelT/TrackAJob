@@ -34,7 +34,7 @@ This document outlines the phases to enhance a Java CLI-based job tracker projec
 
 ---
 
-## [ ] Phase 3: Structure & Design
+## [X] Phase 3: Structure & Design
 
 ### [X] 6. Package Refactoring
 - [X] Organize files into logical packages:
@@ -45,8 +45,8 @@ This document outlines the phases to enhance a Java CLI-based job tracker projec
 ### [X] 7. Use Enums for Status
 - [X] Replace string status fields with `enum` types for safety and clarity.
 
-### [ ] 8. Improve CLI Menu UX
-- [ ] Add submenus, clearer instructions, and input prompts.
+### [X] 8. Improve CLI Menu UX
+- [X] Add submenus, clearer instructions, and input prompts.
 - [X] Allow repeated actions without restarting the app.
 
 ---
