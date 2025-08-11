@@ -122,6 +122,11 @@ public class JobApplication {
     return appliedDate.toString();
   }
 
+  /**
+   * A method that turns every value of the JobApplication class into String output
+   * 
+   * @return Returns a String of every field in the JobApplication instance.
+   */
   public String toString() {
     return 
       "Company: " + company + " | " +

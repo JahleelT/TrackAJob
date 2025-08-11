@@ -11,10 +11,20 @@ final class PromptUtils {
 
   private static final Logger logger = Logger.getLogger(Main.class.getName());
 
+  /**
+   * @param input the String to be checked.
+   * @return Returns t/f of whether the input is empty.
+   */
   public static boolean isBlank(String input) {
     return input == null || input.trim().isEmpty();
   }
 
+  /**
+   * A method for continuous prompting of the user so that there is no empty String inputs
+   * 
+   * @param Scanner scnr, String prompt : A scanner class object and a String prompt.
+   * @return Returns a non-empty String to the user.
+   */
   public static String promptNonEmptyString(Scanner scnr, String prompt) {
     String input;
     do {
@@ -27,7 +37,12 @@ final class PromptUtils {
     return input;
   }
 
-
+  /**
+   * A method for continuous prompting of the user for enums
+   * 
+   * @param Scanner scnr, String prompt, an enum class method : A scanner class object, a String prompt, and the fromString method of whatever enum.
+   * @return Returns an enum class object to the user.
+   */
   public static <T> T promptEnum(Scanner scnr, String prompt, Function<String, T> fromString) {
 
     while (true) {
@@ -44,6 +59,13 @@ final class PromptUtils {
     }
   }
 
+  /**
+   * A method for continuous prompting of the user for BigDecimal objects
+   * 
+   * @params Scanner scnr, String prompt : A scanner class object and a String prompt.
+   * @return Returns a BigDecimal object to the user.
+   * @throws NumberFormatException When the number format is invalid, the NumberFormatException will be caught.
+   */
   public static BigDecimal promptBigDec(Scanner scnr, String prompt) {
     BigDecimal result;
 
@@ -67,6 +89,14 @@ final class PromptUtils {
     return result;
   }
 
+
+  /**
+   * A method for continuous prompting of the user to get a proper URL (not worried about protocols, domains, etc.)
+   * 
+   * @param Scanner scnr, String prompt : A scanner class object and a String prompt.
+   * @return Returns a URL class object to the user.
+   * @throws MalformedURLException If the input was invalid for URL format, the MalformedURLException will be caught.
+   */
   public static URL promptURL(Scanner scnr, String prompt) {
     while (true) {
       String link = promptNonEmptyString(scnr, prompt);
@@ -80,6 +110,13 @@ final class PromptUtils {
     }
   }
 
+  /**
+   * A method for continuous prompting of the user to fix the input to an acceptable int
+   * 
+   * @param Scanner scnr, String prompt, int acceptableNums : A scanner class object, a String prompt, and the number that represents the upper bound of acceptable inputs.
+   * @return Returns an int class object (for switch cases).
+   * @throws NumberFormatException If there is a non-number or another invalid number format, the NumberFormatException will be caught.
+   */
   public static int promptFixedInt(Scanner scnr, String prompt, int acceptableNums) {
 
     while (true) {

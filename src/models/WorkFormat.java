@@ -25,6 +25,12 @@ public enum WorkFormat {
     return workFormat;
   }
 
+  /**
+   * A method to take a string and map it into the WorkFormat equivalent
+   * 
+   * @param String prompt : A String class input object.
+   * @return Returns a WorkFormat enum object
+   */
   public static WorkFormat fromString(String input) {
     String normalizedInput = input.trim().toUpperCase();
     if (normalizedInput.length() != 1) {

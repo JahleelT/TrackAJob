@@ -11,7 +11,6 @@ import java.time.format.DateTimeParseException;
 // File manipulation/creation related imports
 import java.io.File;
 import java.io.FileOutputStream;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -51,10 +50,18 @@ public class ApplicationManager {
     this.jobs = new ArrayList<>();
   }
 
+  /**
+   * A method for adding a job application to the ArrayList of job applications.
+   * 
+   * @param JobApplication application : A JobApplication class object.
+   */
   public void addApplication(JobApplication application) {
     this.jobs.add(application);
   }
 
+  /**
+   * A method to view every currently logged job application.
+   */
   public void viewApplications() {
     if (jobs.size() == 0) {
       logger.info("No jobs have been added yet. Please add 1 or more jobs and try again!");
@@ -66,6 +73,12 @@ public class ApplicationManager {
     }
   }
 
+  /**
+   * A method for deleting one of the currently logged job applications.
+   * 
+   * @param index : An integer representing the ID number of the job to delete
+   * @return Returns a non-empty String to the user that announces success, failure, or otherwise.
+   */
   public String deleteJob(Integer index) {
     int target = index - 1;
     
@@ -80,6 +93,11 @@ public class ApplicationManager {
 
   }
 
+  /**
+   * A method to view all of the jobs of a specific stage in the hiring process.
+   * 
+   * @param Stage stage : A Stage class object representing hiring class stages
+   */
   public void viewStageJobs(Stage stage) {
     List<String> stageJobs = new ArrayList<>();
 
@@ -101,12 +119,22 @@ public class ApplicationManager {
 
   }
 
+
+  /**
+   * A method to delete ALL currently logged jobs
+   * 
+   * @return Returns a non-empty String that announces success to the user.
+   */
   public String deleteAllJobs() {
     jobs.clear();
     imported = false;
     return "Successfully deleted ALL jobs :)";
   }
 
+  /**
+   * @description A method that exports all of the currently logged jobs to an `applications.xml` file.
+   * @throws IOException or XMLStreamException 
+   */
   public void exportJobs() {
       // Create file
       try {
@@ -207,6 +235,11 @@ public class ApplicationManager {
       };
   }
 
+  /**
+   * A method for continuous prompting of the user so that there is no empty String inputs
+   * 
+   * @throws Exception when there is any malformed or missing element entries.
+   */
   public void importJobs() {
 
     if (!imported) {
@@ -302,10 +335,18 @@ public class ApplicationManager {
 
   }
 
+  /**
+   * A method for retrieving the number of jobs at present.
+   * 
+   * @return Returns an Integer class object representing the number of currently logged jobs.
+   */
   public Integer getJobCount() {
     return jobs.size();
   }
 
+  /**
+   * A method representing the closing down of the application.
+   */
   public void exit() {
     logger.info("Program shutting down, it's been fun! Have a good one :)");
   }

@@ -23,10 +23,21 @@ public enum PaymentType {
     this.payType = payType;
   }
 
+  /**
+   * A method to retrieve the enum object as a string.
+   * 
+   * @return Returns a string representing the enum.
+   */
   public String getPayType() {
     return payType;
   }
 
+  /**
+   * A method to take a string and map it into the PaymentType equivalent
+   * 
+   * @param String prompt : A String class input object.
+   * @return Returns a PaymentType enum object
+   */
   public static PaymentType fromString(String input) {
     String normalizedInput = input.trim().toUpperCase();
     if (normalizedInput.length() != 1) {

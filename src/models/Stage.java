@@ -34,10 +34,21 @@ public enum Stage {
     this.stage = stage.toLowerCase();
   }
 
+  /**
+   * A method to retrieve the Stage class object as a String.
+   * 
+   * @return Returns a string class object representing the current job application stage.
+   */
   public String getStage() {
     return this.stage;
   }
 
+  /**
+   * A method to take a string and map it into the Stage enum equivalent
+   * 
+   * @param String prompt : A String class input object.
+   * @return Returns a Stage enum object
+   */
   public static Stage fromString(String input) {
 
     for ( Stage s : Stage.values()) {

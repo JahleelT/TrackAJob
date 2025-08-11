@@ -17,6 +17,10 @@ public class Main {
 
     private static final Logger logger = Logger.getLogger(Main.class.getName());
     
+    /*
+     * @param args Command-line arguments (unused).
+     * @throws Exception if an unexpected error occurs during execution.
+     */
     public static void main(String[] args) throws Exception {
         
         ApplicationManager manager = new ApplicationManager();
