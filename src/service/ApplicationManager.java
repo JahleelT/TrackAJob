@@ -300,9 +300,7 @@ public class ApplicationManager {
       logger.info("You have to delete all jobs before you can import these jobs again.");
     }
 
-
   }
-
 
   public Integer getJobCount() {
     return jobs.size();
@@ -312,33 +310,4 @@ public class ApplicationManager {
     logger.info("Program shutting down, it's been fun! Have a good one :)");
   }
 
-
-
-
 }
-
-
-// SCRAPPED CODE BLOCKS
-/*
-        exportFile.write("<applications>\n");
-
-
-        for (JobApplication job : jobs) {
-
-          exportFile.write("  <application>\n");
-
-          exportFile.write(String.format("    <company>%s</company>\n", job.getCompany()));
-          exportFile.write(String.format("    <role>%s</role>\n", job.getRole()));
-          exportFile.write(String.format("    <location>%s</location>\n", job.getLocation()));
-          exportFile.write(String.format("    <workFormat>%s</workFormat>\n", job.getWorkFormatString()));
-          exportFile.write(String.format("    <payment>%s/%s</payment>", job.getPayment(), job.getPayTypeString()));
-          exportFile.write(String.format("    <stage>%s</stage>\n", job.getStageString()));
-          exportFile.write(String.format("    <trackingLink>%s</trackingLink>\n", job.getTrackingLink()));
-          exportFile.write(String.format("    <applicationDate>%s</applicationDate>\n", job.getAppliedDateString()));
-
-
-          exportFile.write("  </application>\n");
-        }
-
-        exportFile.write("</applications>\n");
- */
