@@ -148,6 +148,7 @@ The system tracks up to seven stages:
 - **Final** - Final Round
 
 ## Project Structure
+- Below is the full project structure with brief descriptions corresponding to each file and directory.
 
 ```
 TrackAJob/
