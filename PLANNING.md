@@ -61,16 +61,16 @@ This document outlines the phases to enhance a Java CLI-based job tracker projec
 
 ## [ ] Phase 5: Polish & Portfolio Readiness
 
-### [ ] 10. Improve README
-- [ ] Include:
-  - [ ] Project description
-  - [ ] How to run it
-  - [ ] Features list
-  - [ ] Sample XML
-  - [ ] Future ideas
+### [X] 10. Improve README
+- [X] Include:
+  - [X] Project description
+  - [X] How to run it
+  - [X] Features list
+  - [X] Sample XML
+  - [X] Future ideas
 
-### [ ] 11. Add Sample Output / Demo GIF
-- [ ] Provide a visual overview of how the app runs.
+### [X] 11. Add Sample Output / Demo GIF
+- [X] Provide a visual overview of how the app runs.
 
 ### [ ] 12. Command-line Arguments (Optional)
 - [ ] Add support for flags like `--export=apps.xml`.
@@ -84,7 +84,7 @@ This document outlines the phases to enhance a Java CLI-based job tracker projec
 
 ## [ ] 🌟 Bonus Phase (Optional): GUI
 
-### [ ] 14. Add a Simple GUI
+### [ ] 14. Add a Simple GUI or TUI
 - [ ] Use Swing or JavaFX to create a form-based interface.
 - [ ] Display application data in a table or list.
 

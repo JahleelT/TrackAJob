@@ -32,12 +32,12 @@ public class Main {
                 "Please select a number corresponding to an action you would like to take :)" + "\n" +
                 "1. Add a Job" + "\n" +
                 "2. View Jobs Menu" + "\n" +
-                "3. Delete Jobs Menu" +
+                "3. View Deletion Menu" + "\n" +
                 "4. Show Job Count" + "\n" +
                 "5. File Menu" + "\n" +
                 "6. Exit" + "\n"
                 , 
-                8
+                6
             );
 
             switch (num) {
@@ -175,6 +175,7 @@ public class Main {
                         default:
                             break;
                     }
+                    break;
 
                 case 6:
                     scnr.close();
